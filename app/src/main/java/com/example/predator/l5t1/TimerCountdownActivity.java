@@ -18,7 +18,7 @@ import java.util.Locale;
 public class TimerCountdownActivity extends AppCompatActivity implements Serializable {
 
 
-    ArrayList<Part> workouts = new ArrayList<Part>();
+    ArrayList<Part> parts = new ArrayList<Part>();
     int currentWorkoutIndex = 0;
     TextView twType;
     TextToSpeech mTTS;
@@ -30,7 +30,7 @@ public class TimerCountdownActivity extends AppCompatActivity implements Seriali
 
         final Intent intent = getIntent();
 
-        workouts = (ArrayList<Part>) intent.getSerializableExtra(MainActivity.EXTRA_MESSAGE);
+        parts = (ArrayList<Part>) intent.getSerializableExtra(MainActivity.EXTRA_MESSAGE);
         addSpeech();
 
         startTimer();
@@ -44,7 +44,7 @@ public class TimerCountdownActivity extends AppCompatActivity implements Seriali
         final TextView twTime = findViewById(R.id.twTimer);
         final TextView twType = findViewById(R.id.twType);
 
-        final Part current = workouts.get(currentWorkoutIndex);
+        final Part current = parts.get(currentWorkoutIndex);
         final int time = current.getTime();
         final String title = current.getName();
         final String speech = title + Integer.toString(time) + "seconds";
@@ -64,7 +64,7 @@ public class TimerCountdownActivity extends AppCompatActivity implements Seriali
             @Override
             public void onFinish() {
                 currentWorkoutIndex++;
-                if (currentWorkoutIndex <= workouts.size()) {
+                if (currentWorkoutIndex <= parts.size()) {
                     startTimer();
                 }
                 else{

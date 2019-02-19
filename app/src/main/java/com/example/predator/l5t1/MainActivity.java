@@ -1,6 +1,5 @@
 package com.example.predator.l5t1;
 
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     static final int ADD_NEW_PART = 311;
     public static final String EXTRA_MESSAGE = "com.example.predator.l4";
     public ArrayList<Part> parts = new ArrayList<>();
+    PartArrayAdapter adapter = null;
     ListView listView = null;
     TextView length = null;
     Button buttonStart = null;
@@ -45,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonStart = findViewById(R.id.btnStart);
         buttonStart.setOnClickListener(this);
         length = findViewById(R.id.twLength);
-        //read();
         read();
     }
 
@@ -82,22 +82,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(item.getItemId() == R.id.btnClear)
         {
             clearList();
-            //jooo
         }
         return true;
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        PartArrayAdapter adapter = new PartArrayAdapter(this, parts);
+        adapter = new PartArrayAdapter(this, parts);
         listView.setAdapter(adapter);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     @Override
@@ -105,6 +98,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStop();
         save();
     }
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -134,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 seconds = seconds-60;
             } }
     }
-
 
     public void save()
     {
@@ -178,10 +172,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         parts.clear();
+                        length.setText("Total length 0 minutes 0 seconds.");
+                        adapter.notifyDataSetChanged();
+
                         Toast.makeText(MainActivity.this,"Workouts cleared", Toast.LENGTH_SHORT).show();
                     }})
                 .setNegativeButton("No",null).show();
-
     }
-
 }
