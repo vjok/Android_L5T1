@@ -82,8 +82,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if(item.getItemId() == R.id.btnClear)
         {
             clearList();
+            //jooo
         }
-
         return true;
     }
 
